@@ -1,32 +1,25 @@
-import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
+import "./header.scss"
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
+const Header = (props) => (
+  <header>
+    <div className="search-bar">
+      พื้นที่ใกล้เคียง
+      <ul>
+        <li>
+          กรุงเทพ
+        </li>
+        <li>
+          เชียงใหม่
+        </li>
+      </ul>
+      <input
+        placeholder="ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
+       />
+      <div>
+      
+      </div>
     </div>
   </header>
 )
