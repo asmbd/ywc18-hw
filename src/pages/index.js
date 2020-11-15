@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react"
-import { graphql, useStaticQuery } from "gatsby"
+import React, { useState } from "react"
 import Header from '../components/header'
 import CONTENT from '../../public/page-data/data'
+import "../styles/global.scss"
 
 const IndexPage = () => {
   const [data, setData] = useState(CONTENT)
@@ -18,7 +18,7 @@ const IndexPage = () => {
 
   return (
     <>
-      <Header provinces={data.provinces} />
+      <Header provinces={data.provinces} shopCategories={data.categories} />
     </>
   )
 }
