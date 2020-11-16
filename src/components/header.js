@@ -4,7 +4,7 @@ import Logo from "../images/halfhalf-logo.png"
 import { DoubleLocationPin, DownArrow, LocationPin, SearchIcon } from "./icons"
 
 const Header = props => {
-  const { provinces, shopCategories } = props
+  const { provinces, shopCategories, setCategory } = props
   const categoryPlaceholder =
     "ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
   const areaPlaceholder = "พื้นที่ใกล้ฉัน"
@@ -23,6 +23,7 @@ const Header = props => {
       setFilterArea(value)
     } else if (target === "category") {
       setSelectedCategory(value)
+      setCategory(value)
       setFilterCategory(value)
     }
     setActiveDropdown("")
