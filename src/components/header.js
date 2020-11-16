@@ -84,6 +84,7 @@ const Header = props => {
             <DoubleLocationPin />
           )}
           <input
+            onBlur={() => setDropdown("")}
             className="dropdown-input"
             placeholder={searchArea}
             value={filterArea}
@@ -92,7 +93,6 @@ const Header = props => {
           <DownArrow className="down-arrow" />
         </div>
         <ul
-          onBlur={() => setDropdown("area")}
           className={`dropdown ${activeDropdown === "area" && "active"}`}
         >
           <li
@@ -124,12 +124,12 @@ const Header = props => {
           placeholder={selectedCategory}
           value={filterCategory}
           onChange={e => handleInput(e, "category")}
+          onBlur={() => setDropdown("")}
         />
         <ul
           className={`dropdown large ${
             activeDropdown === "category" && "active"
           }`}
-          onBlur={() => setDropdown("category")}
         >
           {showCategories.map((category, index) => {
             return (
