@@ -7,9 +7,8 @@ const Header = props => {
   const { provinces, shopCategories, setCategory } = props
   const categoryPlaceholder =
     "ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
-  const areaPlaceholder = "พื้นที่ใกล้ฉัน"
   const [activeDropdown, setActiveDropdown] = useState("")
-  const [searchArea, setSearchArea] = useState(areaPlaceholder)
+  const [searchArea, setSearchArea] = useState("พื้นที่ใกล้ฉัน")
   const [showProvinces, setShowProvinces] = useState(provinces)
   const [showCategories, setShowCategories] = useState(shopCategories)
   const [filterArea, setFilterArea] = useState("พื้นที่ใกล้ฉัน")
@@ -81,9 +80,9 @@ const Header = props => {
         <div className="dropdown-container" onClick={() => setDropdown("area")}>
           {searchArea === "พื้นที่ใกล้ฉัน" ? (
             <LocationPin />
-          ) : (
-            <DoubleLocationPin />
-          )}
+          ) : searchArea === "สถานที่ทั้งหมด" ? (
+            <DoubleLocationPin />) : ""
+          }
           <input
             onBlur={() => setDropdown("")}
             className="dropdown-input"
