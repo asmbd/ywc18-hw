@@ -4,83 +4,106 @@ import Logo from "../images/halfhalf-logo.png"
 import { DoubleLocationPin, DownArrow, LocationPin, SearchIcon } from "./icons"
 
 const Header = props => {
-  const { provinces } = props
-  const ref = useRef(null);
+  const { provinces, shopCategories } = props
+  const categoryPlaceholder =
+    "ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
+  const areaPlaceholder = "พื้นที่ใกล้ฉัน"
   const [activeDropdown, setActiveDropdown] = useState("")
-  const [searchArea, setSearchArea] = useState("พื้นที่ใกล้ฉัน")
+  const [searchArea, setSearchArea] = useState(areaPlaceholder)
   const [showProvinces, setShowProvinces] = useState(provinces)
-  const [filterArea, setFilterArea] = useState("")
-  const [category, setCategory] = useState("")
+  const [showCategories, setShowCategories] = useState(shopCategories)
+  const [filterArea, setFilterArea] = useState("พื้นที่ใกล้ฉัน")
+  const [selectedCategory, setSelectedCategory] = useState(categoryPlaceholder)
+  const [filterCategory, setFilterCategory] = useState("")
 
-  console.log(searchArea)
-
-  const handleClickOutside = (event) => {
-    if (ref.current && !ref.current.contains(event.target)) {
-      setActiveDropdown("");
-      setFilterArea(searchArea);
+  const selectDropdown = (target, value) => {
+    console.log(value)
+    if (target === "area") {
+      setSearchArea(value)
+      setFilterArea(value)
+    } else if (target === "category") {
+      setSelectedCategory(value)
+      setFilterCategory(value)
     }
-  };
-
-  useEffect(() => {
-    if (activeDropdown !== "") {
-      document.addEventListener('click', handleClickOutside, true);
-      return () => {
-        document.removeEventListener('click', handleClickOutside, true);
-      };
-    }
-  });
-
-  const selectArea = target => {
-    setSearchArea(target)
-    setFilterArea("")
     setActiveDropdown("")
   }
 
-  const filterData = () => {
-    setShowProvinces(provinces.filter((value) => {
-      return value.toLowerCase().includes(filterArea)
-    }))
+  const filterData = target => {
+    if (target === "area") {
+      setShowProvinces(
+        provinces.filter(value => {
+          return value.toLowerCase().includes(filterArea)
+        })
+      )
+    } else {
+      setShowCategories(
+        shopCategories.filter(value => {
+          return value.name.toLowerCase().includes(filterCategory.toLowerCase())
+        })
+      )
+    }
   }
 
-  const handleInput = (e) => {
+  const handleInput = (e, target) => {
     e.preventDefault()
-    setFilterArea(e.target.value)
+    if (target === "area") {
+      setFilterArea(e.target.value)
+    } else if (target === "category") {
+      setFilterCategory(e.target.value)
+    }
   }
 
   useEffect(() => {
-    filterData()
+    filterData("area")
   }, [filterArea])
+
+  useEffect(() => {
+    filterData("category")
+  }, [filterCategory])
 
   const setDropdown = target => {
     setActiveDropdown(target)
-    setFilterArea("")
+    if (target === activeDropdown) {
+      setActiveDropdown("")
+    }
+    else if (target === "area") {
+      setFilterArea("")
+    } else if (target === "category") {
+      setFilterCategory("")
+    }
   }
 
   return (
     <div className="header">
       <img src={Logo} />
       <div className="search-bar">
-        <div className="dropdown-container" onClick={() => setDropdown("select-area")}>
+        <div className="dropdown-container" onClick={() => setDropdown("area")}>
+          {searchArea === "พื้นที่ใกล้ฉัน" ? (
+            <LocationPin />
+          ) : (
+            <DoubleLocationPin />
+          )}
           <input
             className="dropdown-input"
             placeholder={searchArea}
             value={filterArea}
-            onChange={(e) => handleInput(e)}
+            onChange={e => handleInput(e, "area")}
           />
-          <DownArrow />
+          <DownArrow className="down-arrow" />
         </div>
         <ul
-          ref={ref} className={`dropdown ${activeDropdown === "select-area" && "active"}`}
+          onBlur={() => setDropdown("area")}
+          className={`dropdown ${activeDropdown === "area" && "active"}`}
         >
           <li
-            className={category === "พื้นที่ใกล้ฉัน" ? "selected" : ""}
-            onClick={() => selectArea("พื้นที่ใกล้ฉัน")}
+            className={searchArea === "พื้นที่ใกล้ฉัน" ? "selected" : ""}
+            onClick={() => selectDropdown("area", "พื้นที่ใกล้ฉัน")}
           >
             <LocationPin /> พื้นที่ใกล้ฉัน
           </li>
           <li
             className={searchArea === "สถานที่ทั้งหมด" ? "selected" : ""}
-            onClick={() => selectArea("สถานที่ทั้งหมด")}
+            onClick={() => selectDropdown("area", "สถานที่ทั้งหมด")}
           >
             <DoubleLocationPin /> สถานที่ทั้งหมด
           </li>
@@ -89,37 +112,33 @@ const Header = props => {
               <li
                 className={searchArea === province ? "selected" : ""}
                 key={index}
-                onClick={() => selectArea(province)}
+                onClick={() => selectDropdown("area", province)}
               >
                 {province}
               </li>
             )
           })}
         </ul>
-        <input placeholder="ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป" />
+        <input
+          onClick={() => setDropdown("category")}
+          placeholder={selectedCategory}
+          value={filterCategory}
+          onChange={e => handleInput(e, "category")}
+        />
         <ul
-          ref={ref} className={`dropdown ${activeDropdown === "select-category" && "active"}`}
+          className={`dropdown large ${
+            activeDropdown === "category" && "active"
+          }`}
+          onBlur={() => setDropdown("category")}
         >
-          <li
-            className={searchArea === "พื้นที่ใกล้ฉัน" ? "selected" : ""}
-            onClick={() => selectArea("พื้นที่ใกล้ฉัน")}
-          >
-            <LocationPin /> พื้นที่ใกล้ฉัน
-          </li>
-          <li
-            className={searchArea === "สถานที่ทั้งหมด" ? "selected" : ""}
-            onClick={() => selectArea("สถานที่ทั้งหมด")}
-          >
-            <DoubleLocationPin /> สถานที่ทั้งหมด
-          </li>
-          {showProvinces.sort().map((province, index) => {
+          {showCategories.map((category, index) => {
             return (
               <li
-                className={searchArea === province ? "selected" : ""}
+                className={selectedCategory === category.name ? "selected" : ""}
                 key={index}
-                onClick={() => selectArea(province)}
+                onClick={() => selectDropdown("category", category.name)}
               >
-                {province}
+                {category.name}
               </li>
             )
           })}
