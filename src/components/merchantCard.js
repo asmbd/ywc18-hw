@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react"
+import React from "react"
 import parse from 'html-react-parser';
 import "./merchantCard.scss"
 import Parking from "../images/ที่จอดรถ.png"

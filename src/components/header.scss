@@ -8,7 +8,6 @@
 
   .filter {
     display: none;
-    margin-left: 8px;
 
     img {
       height: 20px;
@@ -29,7 +28,7 @@
 
   @media screen and (max-width: 768px) {
     >.logo {
-      padding-right: 16px;
+      padding-right: 0;
 
       &.big {
         display: none;
@@ -42,6 +41,7 @@
 
     &.header-container {
       padding: 0;
+      justify-content: space-evenly;
     }
 
     .filter {
@@ -178,7 +178,21 @@
         }
       }
     }
+
+    @media screen and (max-width: 768px) {
+      .dropdown.large {
+        left: 0;
+        width: 100%;
+      }
+    }
   }
+
+  @media screen and (max-width: 768px) {
+    .search-bar {
+      width: 76%;
+    }
+  }
+
   @keyframes growDown {
     0% {
       transform: scaleY(0);
