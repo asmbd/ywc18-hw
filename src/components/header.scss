@@ -4,22 +4,60 @@
   justify-content: center;
   height: 60px;
   background-color: white;
+  padding: 0 32px;
 
-  > img {
+  .filter {
+    display: none;
+    margin-left: 8px;
+
+    img {
+      height: 20px;
+      width: auto;
+    }
+  }
+
+  > .logo {
     height: 40px;
     width: auto;
     margin: 0;
-    padding: 0 32px;
+    padding-right: 32px;
+
+    &.mini {
+      display: none;
+    }
   }
 
+  @media screen and (max-width: 768px) {
+    >.logo {
+      padding-right: 16px;
+
+      &.big {
+        display: none;
+      }
+
+      &.mini {
+        display: block;
+      }
+    }
+
+    &.header-container {
+      padding: 0;
+    }
+
+    .filter {
+      display: flex;
+    }
+  }
+  
   .search-bar {
     display: inline-flex;
     height: 40px;
+    width: 74%;
     font-size: 14px;
     position: relative;
 
     .dropdown-container {
-      width: 192px;
+      min-width: 192px;
       border: 1px solid #d9d9d9;
 			padding: 11px 10px;
       border-right: 0;
@@ -29,7 +67,7 @@
 			cursor: pointer;
 			border-top-left-radius: 8px;
 			border-bottom-left-radius: 8px;
-			position: relative;
+			position: relative;      
 
 			> svg {
         font-size: 14px;
@@ -43,7 +81,6 @@
         }  
       }
       
-
       .dropdown-input {
         justify-content: space-between;
 				width: 100%;
@@ -67,9 +104,21 @@
       background-color: #f8f8f8;
     }
 
+    @media screen and (max-width: 768px) {
+      .dropdown-container {
+        display: none;
+      }
+
+      > input {
+        border-top-left-radius: 8px;
+			  border-bottom-left-radius: 8px;
+        font-size: 16px;
+      }
+    }
+
     > input {
       padding: 11px;
-      width: 763px;
+      width: 100%;
       border: 1px solid #d9d9d9;
       border-right: 0;
     }
@@ -95,7 +144,6 @@
 
       &.large {
         left: 192px;
-        width: 763px;
         height: 160px;
       }
 
@@ -131,13 +179,13 @@
       }
     }
   }
+  @keyframes growDown {
+    0% {
+      transform: scaleY(0);
+    }
+    100% {
+      transform: scaleY(1);
+    }
+  }
 }
 
-@keyframes growDown {
-  0% {
-    transform: scaleY(0);
-  }
-  100% {
-    transform: scaleY(1);
-  }
-}

@@ -16,10 +16,9 @@
 
 		.card-filter-container {
 			display: flex;
-			justify-content: space-between;
 
 			.cards-container {
-				width: 71%;
+				width: 100%;
 				display: grid;
 				height: fit-content;
 				grid-gap: 10px;
@@ -32,4 +31,16 @@
 			}
 		}
 	}
+	
+	@media screen and (max-width: 768px) {
+		.card-container {
+			flex-direction: column;
+
+			.cover-image {
+				height: 224px;
+				width: 100%;
+			}
+		}
+	}
 }
+

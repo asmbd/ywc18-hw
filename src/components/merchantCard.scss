@@ -2,11 +2,11 @@
 	display: flex;
 	background-color: white;
 	border: 1px solid rgb(201, 225, 233);
-	height: fit-content;
+	height: 100%;
 
 	.cover-image {
 		width: 240px;
-		height: 224px;
+		height: 100%;
 		object-fit: cover;
 		padding: 5px;	
 	}
@@ -17,6 +17,7 @@
 		padding: 16px;
 		color: rgb(153, 153, 153);
 		font-size: 14px;
+		height: fit-content;
 
 		b {
 			color: black;
@@ -86,6 +87,17 @@
 				margin-right: 6px;
     		margin-bottom: 3px;
 			}
+		}
+	}
+}
+
+@media screen and (max-width: 1024px) {
+	.card-container {
+		flex-direction: column;
+
+		.cover-image {
+			height: 224px;
+			width: 100%;
 		}
 	}
 }

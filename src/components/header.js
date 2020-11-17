@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react"
 import "./header.scss"
 import Logo from "../images/halfhalf-logo.png"
+import MiniLogo from "../images/halfhalf-logo-mini.png"
+import FilterIcon from "../images/filter.png"
 import {
   DoubleLocationPin,
   DownArrow,
@@ -99,7 +101,8 @@ const Header = props => {
 
   return (
     <div className="header-container">
-      <img src={Logo} />
+      <img className="logo big" src={Logo} />
+      <img className="logo mini" src={MiniLogo} />
       <div className="search-bar">
         <div
           tabIndex="0"
@@ -186,6 +189,7 @@ const Header = props => {
           <SearchIcon />
         </button>
       </div>
+      <button className="filter"><img src={FilterIcon} /></button>
     </div>
   )
 }
