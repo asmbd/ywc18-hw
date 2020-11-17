@@ -3,21 +3,35 @@ import "./filter.scss"
 import { DoubleLocationPin, DownArrow, LocationPin } from "./icons"
 
 const Filter = props => {
-  const { setPriceLevel, priceLevel, currentCategory, currentSubCategory, shopCategories, provinces, priceRange, setCategory, setSubCategory, area, setArea } = props
+  const {
+    setPriceLevel,
+    priceLevel,
+    currentCategory,
+    currentSubCategory,
+    shopCategories,
+    provinces,
+    priceRange,
+    setCategory,
+    setSubCategory,
+    area,
+    setArea,
+  } = props
   const [activeDropdown, setActiveDropdown] = useState("")
-	const [selectedArea, setSelectedArea] = useState(area)
+  const [selectedArea, setSelectedArea] = useState(area)
   const [showProvinces, setShowProvinces] = useState(provinces)
-	const [filterArea, setFilterArea] = useState(area)
+  const [filterArea, setFilterArea] = useState(area)
   const [selectedCategory, setSelectedCategory] = useState(currentCategory)
-	const [selectedSubCategory, setSelectedSubCategory] = useState(currentSubCategory)
-	const [selectedPriceRange, setSelectedPriceRange] = useState("")
+  const [selectedSubCategory, setSelectedSubCategory] = useState(
+    currentSubCategory
+  )
+  const [selectedPriceRange, setSelectedPriceRange] = useState("")
   console.log(currentSubCategory)
-  
+
   useEffect(() => {
     setSelectedCategory(currentCategory)
   }, [currentCategory])
 
-   useEffect(() => {
+  useEffect(() => {
     setSelectedSubCategory(currentSubCategory)
   }, [currentSubCategory])
 
@@ -26,19 +40,19 @@ const Filter = props => {
     setFilterArea(area)
   }, [area])
 
-	const selectDropdown = (target, value) => {
+  const selectDropdown = (target, value) => {
     if (target === "area") {
       setSelectedArea(value)
       setFilterArea(value)
       setArea(value)
-		} else if (target === "price") {
-			setSelectedPriceRange(value)
+    } else if (target === "price") {
+      setSelectedPriceRange(value)
       setPriceLevel(value)
-		}
+    }
     setActiveDropdown("")
   }
 
-	const filterData = target => {
+  const filterData = target => {
     if (target === "area") {
       setShowProvinces(
         provinces.filter(value => {
@@ -48,24 +62,23 @@ const Filter = props => {
     }
   }
 
-	const handleInput = (e, target) => {
+  const handleInput = (e, target) => {
     e.preventDefault()
     if (target === "area") {
       setFilterArea(e.target.value)
     }
   }
 
-	const setDropdown = target => {
+  const setDropdown = target => {
     setActiveDropdown(target)
     if (target === activeDropdown) {
       setActiveDropdown("")
-    }
-    else if (target === "area") {
+    } else if (target === "area") {
       setFilterArea("")
     }
   }
 
-	useEffect(() => {
+  useEffect(() => {
     filterData("area")
   }, [filterArea])
 
@@ -79,33 +92,44 @@ const Filter = props => {
             type="radio"
             checked={selectedCategory === "ทั้งหมด"}
             name="shop-categories"
-						readOnly
+            readOnly
           />
           <span className="checkmark"></span>
         </label>
         {shopCategories.map((category, index) => {
           return (
-            <label key={index} className="container" onClick={() => setCategory(category)}>
+            <label
+              key={index}
+              className="container"
+              onClick={() => setCategory(category)}
+            >
               {category.name}
               <input
                 type="radio"
                 checked={selectedCategory === category}
                 name="shop-categories"
-								readOnly
+                readOnly
               />
               <span className="checkmark"></span>
             </label>
           )
         })}
       </div>
-			<div className="filter-section">
-				จังหวัด/ใกล้ฉัน
-				<div  className="dropdown-container" tabIndex="0" onBlur={() => setDropdown("")} onClick={() => setDropdown("area")}>
+      <div className="filter-section">
+        จังหวัด/ใกล้ฉัน
+        <div
+          className="dropdown-container"
+          tabIndex="0"
+          onBlur={() => setDropdown("")}
+          onClick={() => setDropdown("area")}
+        >
           {selectedArea === "พื้นที่ใกล้ฉัน" ? (
             <LocationPin />
           ) : selectedArea === "สถานที่ทั้งหมด" ? (
-            <DoubleLocationPin />) : ""
-          }
+            <DoubleLocationPin />
+          ) : (
+            ""
+          )}
           <input
             className="dropdown-input"
             placeholder={selectedArea}
@@ -142,15 +166,20 @@ const Filter = props => {
             )
           })}
         </ul>
-			</div>
-			<div className="filter-section">
-				ช่วงราคาสินค้า (บาท)	
-				<div className="dropdown-container" tabIndex="0" onBlur={() => setDropdown("")} onClick={() => setDropdown("price")}>
-					<input
+      </div>
+      <div className="filter-section">
+        ช่วงราคาสินค้า (บาท)
+        <div
+          className="dropdown-container"
+          tabIndex="0"
+          onBlur={() => setDropdown("")}
+          onClick={() => setDropdown("price")}
+        >
+          <input
             className="dropdown-input"
             placeholder="กรุณาเลือก"
-						defaultValue={priceRange[selectedPriceRange-1]}
-						readOnly
+            defaultValue={selectedPriceRange === 0 ? "ทั้งหมด" : priceRange[selectedPriceRange - 1]}
+            readOnly
           />
           <DownArrow className="down-arrow" />
         </div>
@@ -158,49 +187,61 @@ const Filter = props => {
           className={`dropdown ${activeDropdown === "price" && "active"}`}
           onBlur={() => setDropdown("")}
         >
+          <li
+            className={selectedPriceRange - 1 === 0 ? "selected" : ""}
+            onClick={() => selectDropdown("price", 0)}
+          >
+            ทั้งหมด
+          </li>
           {priceRange.map((range, index) => {
             return (
               <li
-                className={selectedPriceRange-1 === index ? "selected" : ""}
+                className={selectedPriceRange - 1 === index ? "selected" : ""}
                 key={index}
-                onClick={() => selectDropdown("price", index+1)}
+                onClick={() => selectDropdown("price", index + 1)}
               >
                 {range}
               </li>
             )
           })}
         </ul>
-			</div>
-			{
-				selectedCategory !== "ทั้งหมด" &&
-				<div className="filter-section">
-					ประเภท{selectedCategory.name}
-					<label className="container" onClick={() => setSubCategory("ทั้งหมด")}>
-						ทั้งหมด
-						<input
-							type="radio"
-							checked={selectedSubCategory === "ทั้งหมด"}
-							name="shop-subcategories"
-							readOnly
-						/>
-						<span className="checkmark"></span>
-					</label>
-					{selectedCategory.subcategories.map((subCategory, index) => {
-						return (
-							<label key={index} className="container" onClick={() => setSubCategory(subCategory)}> 
-								{subCategory}
-								<input
-									type="radio"
-									checked={selectedSubCategory === subCategory}
-									name="shop-subcategories"
-									readOnly
-								/>
-								<span className="checkmark"></span>
-							</label>
-						)
-					})}
-				</div>
-			}
+      </div>
+      {selectedCategory !== "ทั้งหมด" && (
+        <div className="filter-section">
+          ประเภท{selectedCategory.name}
+          <label
+            className="container"
+            onClick={() => setSubCategory("ทั้งหมด")}
+          >
+            ทั้งหมด
+            <input
+              type="radio"
+              checked={selectedSubCategory === "ทั้งหมด"}
+              name="shop-subcategories"
+              readOnly
+            />
+            <span className="checkmark"></span>
+          </label>
+          {selectedCategory.subcategories.map((subCategory, index) => {
+            return (
+              <label
+                key={index}
+                className="container"
+                onClick={() => setSubCategory(subCategory)}
+              >
+                {subCategory}
+                <input
+                  type="radio"
+                  checked={selectedSubCategory === subCategory}
+                  name="shop-subcategories"
+                  readOnly
+                />
+                <span className="checkmark"></span>
+              </label>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }

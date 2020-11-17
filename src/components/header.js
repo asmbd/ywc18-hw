@@ -1,10 +1,25 @@
 import React, { useState, useRef, useEffect } from "react"
 import "./header.scss"
 import Logo from "../images/halfhalf-logo.png"
-import { DoubleLocationPin, DownArrow, FoodCategory, LocationPin, SearchIcon, ShopCategory } from "./icons"
+import {
+  DoubleLocationPin,
+  DownArrow,
+  FoodCategory,
+  LocationPin,
+  SearchIcon,
+  ShopCategory,
+} from "./icons"
 
 const Header = props => {
-  const { provinces, shopCategories, setCategory, area, setArea } = props
+  const {
+    filterName,
+    setFilterName,
+    provinces,
+    shopCategories,
+    setCategory,
+    area,
+    setArea,
+  } = props
   const categoryPlaceholder =
     "ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
   const [activeDropdown, setActiveDropdown] = useState("")
@@ -56,6 +71,13 @@ const Header = props => {
     }
   }
 
+  const search = e => {
+    if (e.key === "Enter") {
+      setFilterName(filterMerchant)
+      setDropdown("")
+    }
+  }
+
   useEffect(() => {
     filterData("area")
   }, [filterArea])
@@ -68,8 +90,7 @@ const Header = props => {
     setActiveDropdown(target)
     if (target === activeDropdown) {
       setActiveDropdown("")
-    }
-    else if (target === "area") {
+    } else if (target === "area") {
       setFilterArea("")
     } else if (target === "category") {
       setFilterMerchant("")
@@ -80,12 +101,19 @@ const Header = props => {
     <div className="header-container">
       <img src={Logo} />
       <div className="search-bar">
-        <div tabIndex="0" onBlur={() => setDropdown("")} className="dropdown-container" onClick={() => setDropdown("area")}>
+        <div
+          tabIndex="0"
+          onBlur={() => setDropdown("")}
+          className="dropdown-container"
+          onClick={() => setDropdown("area")}
+        >
           {searchArea === "พื้นที่ใกล้ฉัน" ? (
             <LocationPin />
           ) : searchArea === "สถานที่ทั้งหมด" ? (
-            <DoubleLocationPin />) : ""
-          }
+            <DoubleLocationPin />
+          ) : (
+            ""
+          )}
           <input
             className="dropdown-input"
             placeholder={searchArea}
@@ -127,6 +155,7 @@ const Header = props => {
           placeholder="ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
           value={filterMerchant}
           onChange={e => handleInput(e, "category")}
+          onKeyDown={e => search(e)}
           onBlur={() => setDropdown("")}
           tabIndex="0"
         />
@@ -143,9 +172,11 @@ const Header = props => {
                 key={index}
                 onClick={() => selectDropdown("category", category)}
               >
-                {
-                  category.name === "ร้านค้า OTOP" ? <ShopCategory /> : <FoodCategory />
-                }
+                {category.name === "ร้านค้า OTOP" ? (
+                  <ShopCategory />
+                ) : (
+                  <FoodCategory />
+                )}
                 {category.name}
               </li>
             )

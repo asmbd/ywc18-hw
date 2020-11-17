@@ -24,6 +24,11 @@
 				height: fit-content;
 				grid-gap: 10px;
 				gap: 10px;
+
+				.not-found {
+					text-align: center;
+					margin-top: 90px;
+				}
 			}
 		}
 	}
