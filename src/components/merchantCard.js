@@ -52,14 +52,14 @@ const MerchantCard = props => {
           </div>
           <span>
             {merchantData.subcategoryName} <span className="line">|</span> {priceLevel()} <span className="line">|</span>
-            {merchantData.addressDistrictName}
+            {merchantData.addressDistrictName}{" "}
             {merchantData.addressProvinceName}
           </span>
         </div>
         <div className="highlight-text">{parse(merchantData.highlightText)}</div>
         {merchantData.recommendedItems && (
           <span className="active"><b>{
-						merchantData.categoryName === "ร้านอาหาร" ? "เมนูแนะนำ:  " : "สินค้าแนะนำ:  "
+						merchantData.categoryName === "ร้านอาหาร" ? "เมนูแนะนำ: " : "สินค้าแนะนำ: "
 					}</b>{merchantData.recommendedItems.join(", ")}</span>
         )}
         <div className="facilities-container">

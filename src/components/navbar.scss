@@ -4,6 +4,7 @@
 	background-color: rgb(39, 57, 124);
 	display: flex;
 	align-items: center;
+	user-select: none;
 
 	.breadcrumb-container {
 		display: flex;

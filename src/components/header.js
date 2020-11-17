@@ -1,29 +1,32 @@
 import React, { useState, useRef, useEffect } from "react"
 import "./header.scss"
 import Logo from "../images/halfhalf-logo.png"
-import { DoubleLocationPin, DownArrow, LocationPin, SearchIcon } from "./icons"
+import { DoubleLocationPin, DownArrow, FoodCategory, LocationPin, SearchIcon, ShopCategory } from "./icons"
 
 const Header = props => {
-  const { provinces, shopCategories, setCategory } = props
+  const { provinces, shopCategories, setCategory, area, setArea } = props
   const categoryPlaceholder =
     "ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
   const [activeDropdown, setActiveDropdown] = useState("")
-  const [searchArea, setSearchArea] = useState("พื้นที่ใกล้ฉัน")
+  const [searchArea, setSearchArea] = useState(area)
   const [showProvinces, setShowProvinces] = useState(provinces)
-  const [showCategories, setShowCategories] = useState(shopCategories)
-  const [filterArea, setFilterArea] = useState("พื้นที่ใกล้ฉัน")
+  const [filterArea, setFilterArea] = useState(area)
   const [selectedCategory, setSelectedCategory] = useState(categoryPlaceholder)
-  const [filterCategory, setFilterCategory] = useState("")
+  const [filterMerchant, setFilterMerchant] = useState("")
+
+  useEffect(() => {
+    setSearchArea(area)
+    setFilterArea(area)
+  }, [area])
 
   const selectDropdown = (target, value) => {
-    console.log(value)
     if (target === "area") {
       setSearchArea(value)
       setFilterArea(value)
+      setArea(value)
     } else if (target === "category") {
       setSelectedCategory(value)
       setCategory(value)
-      setFilterCategory(value)
     }
     setActiveDropdown("")
   }
@@ -36,11 +39,11 @@ const Header = props => {
         })
       )
     } else {
-      setShowCategories(
-        shopCategories.filter(value => {
-          return value.name.toLowerCase().includes(filterCategory.toLowerCase())
-        })
-      )
+      // setShowCategories(
+      //   shopCategories.filter(value => {
+      //     return value.name.toLowerCase().includes(filterCategory.toLowerCase())
+      //   })
+      // )
     }
   }
 
@@ -49,7 +52,7 @@ const Header = props => {
     if (target === "area") {
       setFilterArea(e.target.value)
     } else if (target === "category") {
-      setFilterCategory(e.target.value)
+      setFilterMerchant(e.target.value)
     }
   }
 
@@ -59,7 +62,7 @@ const Header = props => {
 
   useEffect(() => {
     filterData("category")
-  }, [filterCategory])
+  }, [filterMerchant])
 
   const setDropdown = target => {
     setActiveDropdown(target)
@@ -69,7 +72,7 @@ const Header = props => {
     else if (target === "area") {
       setFilterArea("")
     } else if (target === "category") {
-      setFilterCategory("")
+      setFilterMerchant("")
     }
   }
 
@@ -77,14 +80,13 @@ const Header = props => {
     <div className="header-container">
       <img src={Logo} />
       <div className="search-bar">
-        <div className="dropdown-container" onClick={() => setDropdown("area")}>
+        <div tabIndex="0" onBlur={() => setDropdown("")} className="dropdown-container" onClick={() => setDropdown("area")}>
           {searchArea === "พื้นที่ใกล้ฉัน" ? (
             <LocationPin />
           ) : searchArea === "สถานที่ทั้งหมด" ? (
             <DoubleLocationPin />) : ""
           }
           <input
-            onBlur={() => setDropdown("")}
             className="dropdown-input"
             placeholder={searchArea}
             value={filterArea}
@@ -94,6 +96,7 @@ const Header = props => {
         </div>
         <ul
           className={`dropdown ${activeDropdown === "area" && "active"}`}
+          onBlur={() => setDropdown("")}
         >
           <li
             className={searchArea === "พื้นที่ใกล้ฉัน" ? "selected" : ""}
@@ -121,23 +124,28 @@ const Header = props => {
         </ul>
         <input
           onClick={() => setDropdown("category")}
-          placeholder={selectedCategory}
-          value={filterCategory}
+          placeholder="ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
+          value={filterMerchant}
           onChange={e => handleInput(e, "category")}
           onBlur={() => setDropdown("")}
+          tabIndex="0"
         />
         <ul
           className={`dropdown large ${
             activeDropdown === "category" && "active"
           }`}
+          onBlur={() => setDropdown("")}
         >
-          {showCategories.map((category, index) => {
+          {shopCategories.map((category, index) => {
             return (
               <li
-                className={selectedCategory === category.name ? "selected" : ""}
+                className={selectedCategory === category ? "selected" : ""}
                 key={index}
-                onClick={() => selectDropdown("category", category.name)}
+                onClick={() => selectDropdown("category", category)}
               >
+                {
+                  category.name === "ร้านค้า OTOP" ? <ShopCategory /> : <FoodCategory />
+                }
                 {category.name}
               </li>
             )

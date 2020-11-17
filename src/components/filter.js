@@ -3,22 +3,37 @@ import "./filter.scss"
 import { DoubleLocationPin, DownArrow, LocationPin } from "./icons"
 
 const Filter = props => {
-  const { shopCategories, provinces, priceRange } = props
-  const [selectedCategory, setSelectedCategory] = useState("ทั้งหมด")
-	const [selectedSubCategory, setSelectedSubCategory] = useState("ทั้งหมด")
-	const [selectedArea, setSelectedArea] = useState("พื้นที่ใกล้ฉัน")
-	const [filterArea, setFilterArea] = useState("พื้นที่ใกล้ฉัน")
+  const { setPriceLevel, priceLevel, currentCategory, currentSubCategory, shopCategories, provinces, priceRange, setCategory, setSubCategory, area, setArea } = props
   const [activeDropdown, setActiveDropdown] = useState("")
+	const [selectedArea, setSelectedArea] = useState(area)
   const [showProvinces, setShowProvinces] = useState(provinces)
+	const [filterArea, setFilterArea] = useState(area)
+  const [selectedCategory, setSelectedCategory] = useState(currentCategory)
+	const [selectedSubCategory, setSelectedSubCategory] = useState(currentSubCategory)
 	const [selectedPriceRange, setSelectedPriceRange] = useState("")
+  console.log(currentSubCategory)
+  
+  useEffect(() => {
+    setSelectedCategory(currentCategory)
+  }, [currentCategory])
+
+   useEffect(() => {
+    setSelectedSubCategory(currentSubCategory)
+  }, [currentSubCategory])
+
+  useEffect(() => {
+    setSelectedArea(area)
+    setFilterArea(area)
+  }, [area])
 
 	const selectDropdown = (target, value) => {
-		console.log(value)
     if (target === "area") {
       setSelectedArea(value)
       setFilterArea(value)
+      setArea(value)
 		} else if (target === "price") {
 			setSelectedPriceRange(value)
+      setPriceLevel(value)
 		}
     setActiveDropdown("")
   }
@@ -58,7 +73,7 @@ const Filter = props => {
     <div className="filter-container">
       <div className="filter-section">
         ประเภทร้านค้า
-        <label className="container" onClick={() => setSelectedCategory("ทั้งหมด")}>
+        <label className="container" onClick={() => setCategory("ทั้งหมด")}>
           ทั้งหมด
           <input
             type="radio"
@@ -70,7 +85,7 @@ const Filter = props => {
         </label>
         {shopCategories.map((category, index) => {
           return (
-            <label key={index} className="container" onClick={() => setSelectedCategory(category)}>
+            <label key={index} className="container" onClick={() => setCategory(category)}>
               {category.name}
               <input
                 type="radio"
@@ -85,14 +100,13 @@ const Filter = props => {
       </div>
 			<div className="filter-section">
 				จังหวัด/ใกล้ฉัน
-				<div className="dropdown-container" onClick={() => setDropdown("area")}>
+				<div  className="dropdown-container" tabIndex="0" onBlur={() => setDropdown("")} onClick={() => setDropdown("area")}>
           {selectedArea === "พื้นที่ใกล้ฉัน" ? (
             <LocationPin />
           ) : selectedArea === "สถานที่ทั้งหมด" ? (
             <DoubleLocationPin />) : ""
           }
           <input
-            onBlur={() => setDropdown("")}
             className="dropdown-input"
             placeholder={selectedArea}
             value={filterArea}
@@ -100,8 +114,9 @@ const Filter = props => {
           />
           <DownArrow className="down-arrow" />
         </div>
-				<ul
+        <ul
           className={`dropdown ${activeDropdown === "area" && "active"}`}
+          onBlur={() => setDropdown("")}
         >
           <li
             className={selectedArea === "พื้นที่ใกล้ฉัน" ? "selected" : ""}
@@ -130,25 +145,25 @@ const Filter = props => {
 			</div>
 			<div className="filter-section">
 				ช่วงราคาสินค้า (บาท)	
-				<div className="dropdown-container" onClick={() => setDropdown("price")}>
+				<div className="dropdown-container" tabIndex="0" onBlur={() => setDropdown("")} onClick={() => setDropdown("price")}>
 					<input
-            onBlur={() => setDropdown("")}
             className="dropdown-input"
             placeholder="กรุณาเลือก"
-						defaultValue={selectedPriceRange}
+						defaultValue={priceRange[selectedPriceRange-1]}
 						readOnly
           />
           <DownArrow className="down-arrow" />
         </div>
-				<ul
+        <ul
           className={`dropdown ${activeDropdown === "price" && "active"}`}
+          onBlur={() => setDropdown("")}
         >
           {priceRange.map((range, index) => {
             return (
               <li
-                className={selectedPriceRange === range ? "selected" : ""}
+                className={selectedPriceRange-1 === index ? "selected" : ""}
                 key={index}
-                onClick={() => selectDropdown("price", range)}
+                onClick={() => selectDropdown("price", index+1)}
               >
                 {range}
               </li>
@@ -160,7 +175,7 @@ const Filter = props => {
 				selectedCategory !== "ทั้งหมด" &&
 				<div className="filter-section">
 					ประเภท{selectedCategory.name}
-					<label className="container" onClick={() => setSelectedSubCategory("ทั้งหมด")}>
+					<label className="container" onClick={() => setSubCategory("ทั้งหมด")}>
 						ทั้งหมด
 						<input
 							type="radio"
@@ -172,7 +187,7 @@ const Filter = props => {
 					</label>
 					{selectedCategory.subcategories.map((subCategory, index) => {
 						return (
-							<label key={index} className="container" onClick={() => setSelectedSubCategory(subCategory)}> 
+							<label key={index} className="container" onClick={() => setSubCategory(subCategory)}> 
 								{subCategory}
 								<input
 									type="radio"
