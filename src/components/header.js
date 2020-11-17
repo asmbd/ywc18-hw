@@ -74,7 +74,7 @@ const Header = props => {
   }
 
   return (
-    <div className="header">
+    <div className="header-container">
       <img src={Logo} />
       <div className="search-bar">
         <div className="dropdown-container" onClick={() => setDropdown("area")}>

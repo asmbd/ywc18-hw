@@ -1,0 +1,90 @@
+.card-container {
+	display: flex;
+	background-color: white;
+	border: 1px solid rgb(201, 225, 233);
+
+	.cover-image {
+		width: 240px;
+		height: 224px;
+		object-fit: cover;
+		padding: 5px;	
+	}
+
+	.card-details-container {
+		display: flex;
+		flex-direction: column;
+		padding: 16px;
+		color: rgb(153, 153, 153);
+		font-size: 14px;
+
+		b {
+			color: black;
+		}
+
+		.highlight-text {
+			margin-bottom: 8px;
+		}
+
+		.header {
+			border-bottom: solid 1px rgb(238, 238, 238);
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			padding-bottom: 14px;
+			margin-bottom: 14px;
+			height: fit-content;
+
+			.title-container {
+				display: flex;
+
+				.title {
+					font-size: 20px;
+					font-weight: 600;
+					color: black;
+				}
+			}
+
+			span {
+				font-weight: 400;
+				font-size: 14px;
+
+				.active {
+					color: rgb(34, 34, 34);
+				}
+
+				.line {
+					margin: 0 12px;
+				}
+			}
+
+			.status {
+				background-color: rgb(161, 161, 161);
+				color: white;
+				margin-left: 16px;
+				padding: 0 7px;
+				font-weight: 600;
+				font-size: 12px;
+				border-radius: 2px;
+
+				&.open {
+					background-color: rgb(27, 195, 0);
+				}
+			}
+		}
+
+		.facilities-container {
+			display: flex;
+			margin-top: 16px;
+
+			.facility-icon {
+				height: 30px;
+				width: 30px;
+				border-radius: 20px;
+				padding: 5px;
+				border: 1px solid rgb(108, 191, 95);
+				margin-right: 6px;
+    		margin-bottom: 3px;
+			}
+		}
+	}
+}
