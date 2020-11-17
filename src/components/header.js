@@ -3,6 +3,7 @@ import "./header.scss"
 import Logo from "../images/halfhalf-logo.png"
 import MiniLogo from "../images/halfhalf-logo-mini.png"
 import FilterIcon from "../images/filter.png"
+import Sidebar from "./sidebar"
 import {
   DoubleLocationPin,
   DownArrow,
@@ -21,6 +22,12 @@ const Header = props => {
     setCategory,
     area,
     setArea,
+    priceLevel,
+    setPriceLevel,
+    priceRange,
+    subCategory,
+    setSubCategory,
+    category
   } = props
   const categoryPlaceholder =
     "ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
@@ -30,6 +37,7 @@ const Header = props => {
   const [filterArea, setFilterArea] = useState(area)
   const [selectedCategory, setSelectedCategory] = useState(categoryPlaceholder)
   const [filterMerchant, setFilterMerchant] = useState("")
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false)
 
   useEffect(() => {
     setSearchArea(area)
@@ -100,97 +108,116 @@ const Header = props => {
   }
 
   return (
-    <div className="header-container">
-      <img className="logo big" src={Logo} />
-      <img className="logo mini" src={MiniLogo} />
-      <div className="search-bar">
-        <div
-          tabIndex="0"
-          onBlur={() => setDropdown("")}
-          className="dropdown-container"
-          onClick={() => setDropdown("area")}
-        >
-          {searchArea === "พื้นที่ใกล้ฉัน" ? (
-            <LocationPin />
-          ) : searchArea === "สถานที่ทั้งหมด" ? (
-            <DoubleLocationPin />
-          ) : (
-            ""
-          )}
+    <>
+      <Sidebar
+        isOpen={isOpenSidebar}
+        setIsOpen={setIsOpenSidebar}
+        priceLevel={priceLevel}
+        setPriceLevel={setPriceLevel}
+        area={area}
+        setArea={setArea}
+        category={category}
+        setSubCategory={setSubCategory}
+        subCategory={subCategory}
+        setCategory={setCategory}
+        categories={shopCategories}
+        provinces={provinces}
+        priceRange={priceRange}
+      />
+      <div className="header-container">
+        <img className="logo big" src={Logo} />
+        <img className="logo mini" src={MiniLogo} />
+        <div className="search-bar">
+          <div
+            tabIndex="0"
+            onBlur={() => setDropdown("")}
+            className="dropdown-container"
+            onClick={() => setDropdown("area")}
+          >
+            {searchArea === "พื้นที่ใกล้ฉัน" ? (
+              <LocationPin />
+            ) : searchArea === "สถานที่ทั้งหมด" ? (
+              <DoubleLocationPin />
+            ) : (
+              ""
+            )}
+            <input
+              className="dropdown-input"
+              placeholder={searchArea}
+              value={filterArea}
+              onChange={e => handleInput(e, "area")}
+            />
+            <DownArrow className="down-arrow" />
+          </div>
+          <ul
+            className={`dropdown ${activeDropdown === "area" && "active"}`}
+            onBlur={() => setDropdown("")}
+          >
+            <li
+              className={searchArea === "พื้นที่ใกล้ฉัน" ? "selected" : ""}
+              onClick={() => selectDropdown("area", "พื้นที่ใกล้ฉัน")}
+            >
+              <LocationPin /> พื้นที่ใกล้ฉัน
+            </li>
+            <li
+              className={searchArea === "สถานที่ทั้งหมด" ? "selected" : ""}
+              onClick={() => selectDropdown("area", "สถานที่ทั้งหมด")}
+            >
+              <DoubleLocationPin /> สถานที่ทั้งหมด
+            </li>
+            {showProvinces.sort().map((province, index) => {
+              return (
+                <li
+                  className={searchArea === province ? "selected" : ""}
+                  key={index}
+                  onClick={() => selectDropdown("area", province)}
+                >
+                  {province}
+                </li>
+              )
+            })}
+          </ul>
           <input
-            className="dropdown-input"
-            placeholder={searchArea}
-            value={filterArea}
-            onChange={e => handleInput(e, "area")}
+            onClick={() => setDropdown("category")}
+            placeholder="ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
+            value={filterMerchant}
+            onChange={e => handleInput(e, "category")}
+            onKeyDown={e => search(e)}
+            onBlur={() => setDropdown("")}
+            tabIndex="0"
           />
-          <DownArrow className="down-arrow" />
+          <ul
+            className={`dropdown large ${
+              activeDropdown === "category" && "active"
+            }`}
+            onBlur={() => setDropdown("")}
+          >
+            {shopCategories.map((category, index) => {
+              return (
+                <li
+                  className={selectedCategory === category ? "selected" : ""}
+                  key={index}
+                  onClick={() => selectDropdown("category", category)}
+                >
+                  {category.name === "ร้านค้า OTOP" ? (
+                    <ShopCategory />
+                  ) : (
+                    <FoodCategory />
+                  )}
+                  {category.name}
+                </li>
+              )
+            })}
+          </ul>
+          <button className="search-button">
+            <SearchIcon />
+          </button>
         </div>
-        <ul
-          className={`dropdown ${activeDropdown === "area" && "active"}`}
-          onBlur={() => setDropdown("")}
-        >
-          <li
-            className={searchArea === "พื้นที่ใกล้ฉัน" ? "selected" : ""}
-            onClick={() => selectDropdown("area", "พื้นที่ใกล้ฉัน")}
-          >
-            <LocationPin /> พื้นที่ใกล้ฉัน
-          </li>
-          <li
-            className={searchArea === "สถานที่ทั้งหมด" ? "selected" : ""}
-            onClick={() => selectDropdown("area", "สถานที่ทั้งหมด")}
-          >
-            <DoubleLocationPin /> สถานที่ทั้งหมด
-          </li>
-          {showProvinces.sort().map((province, index) => {
-            return (
-              <li
-                className={searchArea === province ? "selected" : ""}
-                key={index}
-                onClick={() => selectDropdown("area", province)}
-              >
-                {province}
-              </li>
-            )
-          })}
-        </ul>
-        <input
-          onClick={() => setDropdown("category")}
-          placeholder="ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
-          value={filterMerchant}
-          onChange={e => handleInput(e, "category")}
-          onKeyDown={e => search(e)}
-          onBlur={() => setDropdown("")}
-          tabIndex="0"
-        />
-        <ul
-          className={`dropdown large ${
-            activeDropdown === "category" && "active"
-          }`}
-          onBlur={() => setDropdown("")}
-        >
-          {shopCategories.map((category, index) => {
-            return (
-              <li
-                className={selectedCategory === category ? "selected" : ""}
-                key={index}
-                onClick={() => selectDropdown("category", category)}
-              >
-                {category.name === "ร้านค้า OTOP" ? (
-                  <ShopCategory />
-                ) : (
-                  <FoodCategory />
-                )}
-                {category.name}
-              </li>
-            )
-          })}
-        </ul>
-        <button className="search-button">
-          <SearchIcon />
+        <button onClick={() => setIsOpenSidebar(true)} className="filter">
+          <img src={FilterIcon} />
         </button>
       </div>
-      <button className="filter"><img src={FilterIcon} /></button>
-    </div>
+    </>
   )
 }
 

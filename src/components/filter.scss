@@ -5,6 +5,11 @@
 	padding: 16px;
 	border: 1px solid #e2e8f0;
 	margin-right: 30px;
+	overflow: auto;
+
+	.submit-button {
+		display: none;
+	}
 
 	.filter-section {
 		font-size: 16px;
@@ -174,7 +179,18 @@
 
 @media screen and (max-width: 768px) {
 	&.filter-container {
-		display: none;
+		margin-right: 0;
+
+		.submit-button {
+			display: flex;
+			width: 100%;
+    	justify-content: center;
+			color: #1890ff;
+			border: 1px solid #1890ff;
+			font-size: 14px;
+    	border-radius: 2px;
+			padding: 4px 15px;
+		}
 	}
 }
 

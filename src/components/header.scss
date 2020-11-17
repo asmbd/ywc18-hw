@@ -143,8 +143,9 @@
       transform-origin: top;
 
       &.large {
-        left: 192px;
         height: 160px;
+        width: 65%;
+        left: 192px;
       }
 
       &.active {
