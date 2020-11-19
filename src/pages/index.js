@@ -30,7 +30,7 @@ const IndexPage = () => {
     let filteredMerchant = data.merchants
     if (filterName !== "") {
       filteredMerchant = filteredMerchant.filter(merchant => {
-        return merchant.shopNameTH.includes(filterName)
+        return merchant.shopNameTH.toLowerCase().includes(filterName.toLowerCase())
       })
     }
     if (category !== "ทั้งหมด") {

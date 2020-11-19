@@ -5,7 +5,6 @@ import { DoubleLocationPin, DownArrow, LocationPin } from "./icons"
 const Filter = props => {
   const {
     setPriceLevel,
-    priceLevel,
     currentCategory,
     currentSubCategory,
     shopCategories,

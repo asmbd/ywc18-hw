@@ -1,11 +1,9 @@
 .filter-container {
 	background-color: white;
 	min-width: 350px;
-	height: 100%;
 	padding: 16px;
 	border: 1px solid #e2e8f0;
 	margin-right: 30px;
-	overflow: auto;
 
 	.submit-button {
 		display: none;
@@ -13,9 +11,12 @@
 
 	.filter-section {
 		font-size: 16px;
-		font-weight: 600;
+		font-weight: 700;
 		position: relative;
-		margin-bottom: 20px;
+
+		&:not(:last-child) {
+			margin-bottom: 20px;
+		}
 
 		.dropdown {
       visibility: hidden;
@@ -47,16 +48,17 @@
       }
 
       li {
-        padding: 6px;
+        padding: 6px 10px;
         margin: 0;
         display: flex;
         cursor: pointer;
         align-items: center;
 				font-size: 14px;
+				font-weight: 400;
 
         &.selected,
         &:active {
-          font-weight: 600;
+          font-weight: 700;
           background-color: rgb(207, 229, 236);
         }
 
@@ -71,6 +73,7 @@
     }
 
 		.dropdown-container {
+			font-weight: 400;
       width: 100%;
       border: 1px solid #d9d9d9;
       display: flex;
@@ -178,8 +181,10 @@
 }
 
 @media screen and (max-width: 768px) {
-	&.filter-container {
+	.filter-container {
 		margin-right: 0;
+		overflow: auto;
+		height: 100%;
 
 		.submit-button {
 			display: flex;

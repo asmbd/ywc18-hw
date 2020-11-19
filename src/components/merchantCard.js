@@ -37,7 +37,7 @@ const MerchantCard = props => {
 
   return (
     <div className="card-container">
-      <img className="cover-image" src={merchantData.coverImageId} />
+      <div className="image-container" style={{backgroundImage: `url(${merchantData.coverImageId})`}} />
       <div className="card-details-container">
         <div className="header">
           <div className="title-container">

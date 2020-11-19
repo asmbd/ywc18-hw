@@ -4,10 +4,18 @@
 	border: 1px solid rgb(201, 225, 233);
 	height: 100%;
 
+	.image-container {
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		margin: 5px;
+		width: 224px;
+	}
+
 	.cover-image {
-		width: 240px;
 		height: 100%;
 		object-fit: cover;
+		width: 240px;
 		padding: 5px;	
 	}
 
@@ -91,13 +99,17 @@
 	}
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
 	.card-container {
 		flex-direction: column;
 
-		.cover-image {
+		.image-container {
 			height: 224px;
-			width: 100%;
+			width: auto;
 		}
+	}
+
+	.filters-container {
+		display: none;
 	}
 }
