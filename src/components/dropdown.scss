@@ -82,16 +82,18 @@
 	li {
 		padding: 6px 10px;
 		margin: 0;
-		display: block;
+		display: flex;
+		flex: 1 0 auto;
 		cursor: pointer;
 		align-items: center;
 		font-size: 14px;
 		font-weight: 400;
 
 		span {
-			width: 100%;
 			display: flex;
+			width: fit-content;
     	align-items: center;
+			word-break: keep-all;
 
 			span {
 				display: block;
