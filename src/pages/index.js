@@ -17,7 +17,6 @@ const IndexPage = () => {
   const [merchants, setMerchants] = useState(data.merchants)
   const [filterName, setFilterMerchantName] = useState("")
   const [isOpenSidebar, setIsOpenSidebar] = useState(false)
-  console.log(area)
 
   // const fetchData = async () => {
   //   const response = await fetch("https://panjs.com/ywc18.json")
@@ -50,9 +49,10 @@ const IndexPage = () => {
         return area === merchant.addressProvinceName
       })
     }
-    if (priceLevel !== 0) {
+    if (priceLevel !== "" && priceLevel !== "ทั้งหมด") {
+      const level = data.priceRange.indexOf(priceLevel)
       filteredMerchant = filteredMerchant.filter(merchant => {
-        return priceLevel === merchant.priceLevel
+        return level + 1 === merchant.priceLevel
       })
     }
 
@@ -95,9 +95,9 @@ const IndexPage = () => {
       <div className="result-container">
         <div className="title">
           ผลการค้นหา {category.name}{" "}
-          {priceLevel !== 0 &&
+          {priceLevel !== "ทั้งหมด" && priceLevel !== "" &&
             category !== "ทั้งหมด" &&
-            `, ราคา ${data.priceRange[priceLevel - 1]}`}{" "}
+            `, ราคา ${priceLevel}`}{" "}
           ทั้งหมด
         </div>
         <div className="card-filter-container">
