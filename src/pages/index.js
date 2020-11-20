@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import Header from "../components/header"
-// import CONTENT from "../../public/page-data/data"
 import "../styles/global.scss"
 import "./index.scss"
 import NavigationBar from "../components/navbar"
