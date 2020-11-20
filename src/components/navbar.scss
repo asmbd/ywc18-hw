@@ -4,12 +4,15 @@
 	background-color: rgb(39, 57, 124);
 	display: flex;
 	align-items: center;
+	user-select: none;
 
 	.breadcrumb-container {
 		display: flex;
 		color: white;
 		font-size: 14px;
-		margin: 0 90px;
+		min-width: 80%;
+		padding: 0 32px;
+		margin: 0 18.5px;
 
 		span {
 			margin: 0 12px;
@@ -17,6 +20,7 @@
 
 		button {
 			text-decoration: underline;
+			
 			&.selected {
 				font-weight: 700;
 				text-decoration: none;

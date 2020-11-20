@@ -1,0 +1,27 @@
+.result-container {
+	padding: 20px 16px 32px 16px;
+	user-select: none;
+
+	> .title {
+		font-size: 20px;
+		font-weight: 700;
+	}
+
+	.card-filter-container {
+		display: flex;
+		margin-top: 32px;
+
+		.cards-container {
+			width: 100%;
+			display: grid;
+			height: fit-content;
+			grid-gap: 10px;
+			gap: 10px;
+
+			.not-found {
+				text-align: center;
+				margin-top: 90px;
+			}
+		}
+	}
+}
