@@ -66,11 +66,11 @@ const Filter = props => {
           list={[
             <>
               <LocationPin />
-              พื้นที่ใกล้ฉัน
+              <span>พื้นที่ใกล้ฉัน</span>
             </>,
             <>
               <DoubleLocationPin />
-              สถานที่ทั้งหมด
+              <span>สถานที่ทั้งหมด</span>
             </>,
             ...showProvinces.sort(),
           ]}
