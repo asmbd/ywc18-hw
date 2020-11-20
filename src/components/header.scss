@@ -5,13 +5,15 @@
   height: 60px;
   background-color: white;
   padding: 0 32px;
+  width: 100%;
+  justify-content: center;
 
   .filter {
     display: none;
 
     img {
       height: 20px;
-      width: auto;
+      min-width: 20px;
     }
   }
 
@@ -54,20 +56,9 @@
   .search-bar {
     display: inline-flex;
     height: 40px;
-    width: 74%;
+    width: 80%;
     font-size: 14px;
     position: relative;
-
-    .dropdown-container {
-      min-width: 192px;
-			padding: 11px 10px;
-      border-right: 0;
-			border-radius: 8px 0 0 8px;
-
-			> svg {
-        font-size: 14px;
-      }
-    }
 
     .search-button {
       border-radius: 0 8px 8px 0;
@@ -81,18 +72,6 @@
       background-color: #f8f8f8;
     }
 
-    @media screen and (max-width: 768px) {
-      .dropdown-container {
-        display: none;
-      }
-
-      > input {
-        border-top-left-radius: 8px;
-			  border-bottom-left-radius: 8px;
-        font-size: 16px;
-      }
-    }
-
     > input {
       padding: 11px;
       width: 100%;
@@ -100,14 +79,11 @@
       border-right: 0;
     }
 
-    .dropdown {
-      top: 40px;
-    }
-
     @media screen and (max-width: 768px) {
-      .dropdown.large {
-        left: 0;
-        width: 100%;
+      > input {
+        border-top-left-radius: 8px;
+			  border-bottom-left-radius: 8px;
+        font-size: 16px;
       }
     }
   }

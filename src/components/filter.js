@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import Dropdown from "./dropdown"
 import "./filter.scss"
-import { DoubleLocationPin, DownArrow, LocationPin } from "./icons"
+import { DoubleLocationPin, LocationPin } from "./icons"
 
 const Filter = props => {
   const {
@@ -16,13 +16,21 @@ const Filter = props => {
     data,
   } = props
   const [showProvinces, setShowProvinces] = useState(data.provinces)
-  console.log(area)
+
+  const selectCategory = (value) => {
+    setCategory(value)
+    setSubCategory("ทั้งหมด")
+  }
+
+  useEffect(() => {
+    setShowProvinces(data.provinces)
+  }, [data])
 
   return (
     <div className="filter-container">
       <div className="filter-section">
         ประเภทร้านค้า
-        <label className="container" onClick={() => setCategory("ทั้งหมด")}>
+        <label className="container" onClick={() => selectCategory("ทั้งหมด")}>
           ทั้งหมด
           <input
             type="radio"
@@ -35,9 +43,9 @@ const Filter = props => {
         {data.categories.map((category, index) => {
           return (
             <label
-              key={index}
+              key={`categories-${index}`}
               className="container"
-              onClick={() => setCategory(category)}
+              onClick={() => selectCategory(category)}
             >
               {category.name}
               <input
@@ -107,7 +115,7 @@ const Filter = props => {
           {currentCategory.subcategories.map((subCategory, index) => {
             return (
               <label
-                key={index}
+                key={`subcategory-${index}`}
                 className="container"
                 onClick={() => setSubCategory(subCategory)}
               >

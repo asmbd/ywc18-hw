@@ -11,18 +11,39 @@ const Sidebar = props => {
     setPriceLevel,
     area,
     setArea,
-    category,
+    currentCategory,
     setSubCategory,
-    subCategory,
+    currentSubCategory,
 		setCategory,
 		data
   } = props
-	console.log(category)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(isOpen)
+  const [selectedCategory, setSelectedCategory] = useState(currentCategory)
+  const [selectedSubCategory, setSelectedSubCategory] = useState(currentSubCategory)
 
+  const closeSidebar = () => {
+    setIsOpen(false)
+    setCategory(selectedCategory)
+    setSubCategory(selectedSubCategory)
+  }
+
+  useEffect(() => {
+    setIsSidebarOpen(isOpen)
+  }, [isOpen])
+
+  useEffect(() => {
+    setSelectedSubCategory(currentSubCategory)
+  }, [currentSubCategory])
+
+  useEffect(() => {
+    setSelectedCategory(currentCategory)
+  }, [currentCategory])
+
+  
   return (
-    <div className={`sidebar ${isOpen && "open"}`}>
+    <div className={`sidebar ${isSidebarOpen && "open"}`}>
       <div className="header">
-        <button onClick={() => setIsOpen(false)}>
+        <button onClick={closeSidebar}>
           <LeftArrow />
         </button>
         <h2>กรอกผล</h2>
@@ -33,10 +54,10 @@ const Sidebar = props => {
           setPriceLevel={setPriceLevel}
           area={area}
           setArea={setArea}
-          currentCategory={category}
-          setSubCategory={setSubCategory}
-          currentSubCategory={subCategory}
-          setCategory={setCategory}
+          currentCategory={selectedCategory}
+          setSubCategory={setSelectedSubCategory}
+          currentSubCategory={selectedSubCategory}
+          setCategory={setSelectedCategory}
           data={data}
         />
       </div>

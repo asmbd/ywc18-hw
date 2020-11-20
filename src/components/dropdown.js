@@ -13,6 +13,7 @@ const Dropdown = (props) => {
 		enableSearch,
 		placeholder,
 		itemKey,
+		style,
 		children
 	} = props
 	const [toggle, setToggle] = useState(false)
@@ -50,9 +51,9 @@ const Dropdown = (props) => {
 	}
 	
 	return (
-		<>
+		<div className={`outer-dropdown ${style}`}>
 			<div
-				className="dropdown-container"
+				className={`dropdown-container`}
 				tabIndex="0"
 				onClick={toggleDropdown}
 				onBlur={() => setToggle(false)}
@@ -103,7 +104,7 @@ const Dropdown = (props) => {
 					)
 				})}
 			</ul>
-		</>
+		</div>
 	)
 }
 

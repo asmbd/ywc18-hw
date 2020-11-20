@@ -22,6 +22,10 @@ const Header = props => {
   } = props
   const [showProvinces, setShowProvinces] = useState(data.provinces)
 
+  useEffect(() => {
+    setShowProvinces(data.provinces)
+  }, [data])
+
   return (
     <>
       <div className="header-container">
@@ -44,6 +48,7 @@ const Header = props => {
             setList={setShowProvinces}
             selected={area}
             setSelected={setArea}
+            style="header-dropdown"
           >
             {area === "พื้นที่ใกล้ฉัน" ? (
               <LocationPin />
@@ -52,16 +57,17 @@ const Header = props => {
             ) : (
               ""
             )}
-        </Dropdown>
-        <Dropdown
-          enableSearch
-          placeholder="ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
-          setValue={setFilterMerchantName}
-          list={data.categories}
-          selected={currentCategory}
-          setSelected={setCategory}
-          itemKey="name"
-        />
+          </Dropdown>
+          <Dropdown
+            enableSearch
+            placeholder="ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
+            setValue={setFilterMerchantName}
+            list={data.categories}
+            selected={currentCategory}
+            setSelected={setCategory}
+            itemKey="name"
+            style="header-dropdown large"
+          />
           <button className="search-button">
             <SearchIcon />
           </button>

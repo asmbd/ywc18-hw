@@ -1,35 +1,26 @@
-.pages {
-	background: url("../images/result-bg.png") no-repeat;
-	background-position: center;
-	background-size: cover;
-	background-attachment: fixed;
-	overflow: hidden;
-	min-height: 100vh;
+.result-container {
+	padding: 20px 16px 32px 16px;
+	user-select: none;
 
-	.result-container {
-		padding: 0 16px 32px 16px;
-		user-select: none;
+	> .title {
+		font-size: 20px;
+		font-weight: 700;
+	}
 
-		> .title {
-			margin: 24px 0;
-			font-size: 20px;
-			font-weight: 600;
-		}
+	.card-filter-container {
+		display: flex;
+		margin-top: 32px;
 
-		.card-filter-container {
-			display: flex;
+		.cards-container {
+			width: 100%;
+			display: grid;
+			height: fit-content;
+			grid-gap: 10px;
+			gap: 10px;
 
-			.cards-container {
-				width: 100%;
-				display: grid;
-				height: fit-content;
-				grid-gap: 10px;
-				gap: 10px;
-
-				.not-found {
-					text-align: center;
-					margin-top: 90px;
-				}
+			.not-found {
+				text-align: center;
+				margin-top: 90px;
 			}
 		}
 	}

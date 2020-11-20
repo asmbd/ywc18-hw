@@ -5,13 +5,14 @@
 	display: flex;
 	align-items: center;
 	user-select: none;
-	padding: 0 32px;
 
 	.breadcrumb-container {
 		display: flex;
 		color: white;
 		font-size: 14px;
 		min-width: 80%;
+		padding: 0 32px;
+		margin: 0 18.5px;
 
 		span {
 			margin: 0 12px;

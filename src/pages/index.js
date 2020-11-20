@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react"
 import Header from "../components/header"
-import CONTENT from "../../public/page-data/data"
+// import CONTENT from "../../public/page-data/data"
 import "../styles/global.scss"
 import "./index.scss"
 import NavigationBar from "../components/navbar"
 import Filter from "../components/filter"
 import MerchantCard from "../components/merchantCard"
 import Sidebar from '../components/sidebar'
+import axios from 'axios';
 
 const IndexPage = () => {
-  const [data, setData] = useState(CONTENT)
+  const [data, setData] = useState({
+    categories: [],
+    provinces: [],
+    priceRange: [],
+  })
   const [category, setCategory] = useState("ทั้งหมด")
   const [subCategory, setSubCategory] = useState("ทั้งหมด")
   const [area, setArea] = useState("พื้นที่ใกล้ฉัน")
@@ -18,14 +23,20 @@ const IndexPage = () => {
   const [filterName, setFilterMerchantName] = useState("")
   const [isOpenSidebar, setIsOpenSidebar] = useState(false)
 
-  // const fetchData = async () => {
-  //   const response = await fetch("https://panjs.com/ywc18.json")
-  //   response.json().then((data) => setData(data))
-  // }
+  useEffect(() => {
+    setMerchants(data.merchants)
+  }, [data])
 
-  // useEffect(() => {
-  //   fetchData()
-  // }, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios(
+        'https://panjs.com/ywc18.json',
+      );
+      setData(result.data)
+    }
+
+    fetchData()
+  }, [])
 
   const filterMerchant = () => {
     let filteredMerchant = data.merchants
@@ -63,12 +74,19 @@ const IndexPage = () => {
     filterMerchant()
   }, [category, subCategory, area, priceLevel, filterName])
 
-  useEffect(() => {
-    setSubCategory("ทั้งหมด")
-  }, [category])
+  const searchResult = () => {
+    let resultList = [category.name]
+    if (priceLevel !== "ทั้งหมด" && priceLevel !== "") {
+      resultList.push(priceLevel)
+    }
+    if (filterName !== "") {
+      resultList.push(filterName)
+    }
+    return resultList
+  }
 
   return (
-    <div className="pages">
+    <>
       <Sidebar
         isOpen={isOpenSidebar}
         setIsOpen={setIsOpenSidebar}
@@ -76,9 +94,9 @@ const IndexPage = () => {
         setPriceLevel={setPriceLevel}
         area={area}
         setArea={setArea}
-        category={category}
+        currentCategory={category}
         setSubCategory={setSubCategory}
-        subCategory={subCategory}
+        currentSubCategory={subCategory}
         setCategory={setCategory}
         data={data}
       />
@@ -94,11 +112,7 @@ const IndexPage = () => {
       <NavigationBar />
       <div className="result-container">
         <div className="title">
-          ผลการค้นหา {category.name}{" "}
-          {priceLevel !== "ทั้งหมด" && priceLevel !== "" &&
-            category !== "ทั้งหมด" &&
-            `, ราคา ${priceLevel}`}{" "}
-          ทั้งหมด
+          ผลการค้นหา{" "}{searchResult().join(" , ")}{" "}ทั้งหมด
         </div>
         <div className="card-filter-container">
           <div className="filters-container">
@@ -114,7 +128,9 @@ const IndexPage = () => {
               data={data}
             />
           </div>
-          <div className="cards-container">
+          {
+            merchants &&
+            <div className="cards-container">
             {merchants.length > 0 ? (
               merchants.map((merchant, index) => {
                 return <MerchantCard key={index} merchantData={merchant} />
@@ -124,11 +140,13 @@ const IndexPage = () => {
                 <h2>ไม่พบสถานที่ที่คุณกำลังหา</h2>
                 ร้านค้าที่ท่านค้นหาอาจไม่ได้เข้าร่วมโครงการ คนละครึ่ง
               </div>
-            )}
+            )
+            }
           </div>
+          }
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
