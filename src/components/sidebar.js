@@ -15,9 +15,7 @@ const Sidebar = props => {
     setSubCategory,
     subCategory,
 		setCategory,
-		categories,
-		provinces,
-		priceRange
+		data
   } = props
 	console.log(category)
 
@@ -39,9 +37,7 @@ const Sidebar = props => {
           setSubCategory={setSubCategory}
           currentSubCategory={subCategory}
           setCategory={setCategory}
-          shopCategories={categories}
-          provinces={provinces}
-          priceRange={priceRange}
+          data={data}
         />
       </div>
     </div>

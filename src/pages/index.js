@@ -6,16 +6,18 @@ import "./index.scss"
 import NavigationBar from "../components/navbar"
 import Filter from "../components/filter"
 import MerchantCard from "../components/merchantCard"
+import Sidebar from '../components/sidebar'
 
 const IndexPage = () => {
   const [data, setData] = useState(CONTENT)
   const [category, setCategory] = useState("ทั้งหมด")
   const [subCategory, setSubCategory] = useState("ทั้งหมด")
   const [area, setArea] = useState("พื้นที่ใกล้ฉัน")
-  const [priceLevel, setPriceLevel] = useState(0)
+  const [priceLevel, setPriceLevel] = useState("")
   const [merchants, setMerchants] = useState(data.merchants)
-  const [filterName, setFilterName] = useState("")
-  console.log(filterName)
+  const [filterName, setFilterMerchantName] = useState("")
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false)
+  console.log(area)
 
   // const fetchData = async () => {
   //   const response = await fetch("https://panjs.com/ywc18.json")
@@ -67,19 +69,27 @@ const IndexPage = () => {
 
   return (
     <div className="pages">
-      <Header
-        filterName={filterName}
-        setFilterName={setFilterName}
+      <Sidebar
+        isOpen={isOpenSidebar}
+        setIsOpen={setIsOpenSidebar}
+        priceLevel={priceLevel}
         setPriceLevel={setPriceLevel}
         area={area}
         setArea={setArea}
         category={category}
-        provinces={data.provinces}
-        shopCategories={data.categories}
-        setCategory={setCategory}
-        priceRange={data.priceRange}
-        subCategory={subCategory}
         setSubCategory={setSubCategory}
+        subCategory={subCategory}
+        setCategory={setCategory}
+        data={data}
+      />
+      <Header
+        data={data}
+        area={area}
+        setArea={setArea}
+        currentCategory={category}
+        setCategory={setCategory}
+        setFilterMerchantName={setFilterMerchantName}
+        setIsOpenSidebar={setIsOpenSidebar}
       />
       <NavigationBar />
       <div className="result-container">
@@ -101,9 +111,7 @@ const IndexPage = () => {
               setSubCategory={setSubCategory}
               currentSubCategory={subCategory}
               setCategory={setCategory}
-              shopCategories={data.categories}
-              provinces={data.provinces}
-              priceRange={data.priceRange}
+              data={data}
             />
           </div>
           <div className="cards-container">

@@ -3,7 +3,6 @@ import "./header.scss"
 import Logo from "../images/halfhalf-logo.png"
 import MiniLogo from "../images/halfhalf-logo-mini.png"
 import FilterIcon from "../images/filter.png"
-import Sidebar from "./sidebar"
 import {
   DoubleLocationPin,
   DownArrow,
@@ -15,67 +14,46 @@ import {
 
 const Header = props => {
   const {
-    filterName,
-    setFilterName,
-    provinces,
-    shopCategories,
+    setFilterMerchantName,
+    data,
     setCategory,
     area,
     setArea,
-    priceLevel,
-    setPriceLevel,
-    priceRange,
-    subCategory,
-    setSubCategory,
-    category
+    setIsOpenSidebar,
+    currentCategory
   } = props
-  const categoryPlaceholder =
-    "ค้นหา ชื่อ ร้านอาหาร และเครื่องดื่ม ร้านธงฟ้า ร้านค้า OTOP และสินค้าทั่วไป"
   const [activeDropdown, setActiveDropdown] = useState("")
-  const [searchArea, setSearchArea] = useState(area)
-  const [showProvinces, setShowProvinces] = useState(provinces)
+  const [showProvinces, setShowProvinces] = useState(data.provinces)
   const [filterArea, setFilterArea] = useState(area)
-  const [selectedCategory, setSelectedCategory] = useState(categoryPlaceholder)
   const [filterMerchant, setFilterMerchant] = useState("")
-  const [isOpenSidebar, setIsOpenSidebar] = useState(false)
 
   useEffect(() => {
-    setSearchArea(area)
     setFilterArea(area)
   }, [area])
 
   const selectDropdown = (target, value) => {
     if (target === "area") {
-      setSearchArea(value)
       setFilterArea(value)
       setArea(value)
     } else if (target === "category") {
-      setSelectedCategory(value)
       setCategory(value)
     }
     setActiveDropdown("")
   }
 
-  const filterData = target => {
-    if (target === "area") {
-      setShowProvinces(
-        provinces.filter(value => {
-          return value.toLowerCase().includes(filterArea)
-        })
-      )
-    } else {
-      // setShowCategories(
-      //   shopCategories.filter(value => {
-      //     return value.name.toLowerCase().includes(filterCategory.toLowerCase())
-      //   })
-      // )
-    }
+  const filterData = () => {
+    setShowProvinces(
+      data.provinces.filter(value => {
+        return value.toLowerCase().includes(filterArea)
+      })
+    )
   }
 
   const handleInput = (e, target) => {
     e.preventDefault()
     if (target === "area") {
       setFilterArea(e.target.value)
+      filterData()
     } else if (target === "category") {
       setFilterMerchant(e.target.value)
     }
@@ -83,18 +61,10 @@ const Header = props => {
 
   const search = e => {
     if (e.key === "Enter") {
-      setFilterName(filterMerchant)
+      setFilterMerchantName(filterMerchant)
       setDropdown("")
     }
   }
-
-  useEffect(() => {
-    filterData("area")
-  }, [filterArea])
-
-  useEffect(() => {
-    filterData("category")
-  }, [filterMerchant])
 
   const setDropdown = target => {
     setActiveDropdown(target)
@@ -109,21 +79,6 @@ const Header = props => {
 
   return (
     <>
-      <Sidebar
-        isOpen={isOpenSidebar}
-        setIsOpen={setIsOpenSidebar}
-        priceLevel={priceLevel}
-        setPriceLevel={setPriceLevel}
-        area={area}
-        setArea={setArea}
-        category={category}
-        setSubCategory={setSubCategory}
-        subCategory={subCategory}
-        setCategory={setCategory}
-        categories={shopCategories}
-        provinces={provinces}
-        priceRange={priceRange}
-      />
       <div className="header-container">
         <img className="logo big" src={Logo} />
         <img className="logo mini" src={MiniLogo} />
@@ -134,16 +89,16 @@ const Header = props => {
             className="dropdown-container"
             onClick={() => setDropdown("area")}
           >
-            {searchArea === "พื้นที่ใกล้ฉัน" ? (
+            {area === "พื้นที่ใกล้ฉัน" ? (
               <LocationPin />
-            ) : searchArea === "สถานที่ทั้งหมด" ? (
+            ) : area === "สถานที่ทั้งหมด" ? (
               <DoubleLocationPin />
             ) : (
               ""
             )}
             <input
               className="dropdown-input"
-              placeholder={searchArea}
+              placeholder={area}
               value={filterArea}
               onChange={e => handleInput(e, "area")}
             />
@@ -154,13 +109,13 @@ const Header = props => {
             onBlur={() => setDropdown("")}
           >
             <li
-              className={searchArea === "พื้นที่ใกล้ฉัน" ? "selected" : ""}
+              className={area === "พื้นที่ใกล้ฉัน" ? "selected" : ""}
               onClick={() => selectDropdown("area", "พื้นที่ใกล้ฉัน")}
             >
               <LocationPin /> พื้นที่ใกล้ฉัน
             </li>
             <li
-              className={searchArea === "สถานที่ทั้งหมด" ? "selected" : ""}
+              className={area === "สถานที่ทั้งหมด" ? "selected" : ""}
               onClick={() => selectDropdown("area", "สถานที่ทั้งหมด")}
             >
               <DoubleLocationPin /> สถานที่ทั้งหมด
@@ -168,7 +123,7 @@ const Header = props => {
             {showProvinces.sort().map((province, index) => {
               return (
                 <li
-                  className={searchArea === province ? "selected" : ""}
+                  className={area === province ? "selected" : ""}
                   key={index}
                   onClick={() => selectDropdown("area", province)}
                 >
@@ -192,10 +147,10 @@ const Header = props => {
             }`}
             onBlur={() => setDropdown("")}
           >
-            {shopCategories.map((category, index) => {
+            {data.categories.map((category, index) => {
               return (
                 <li
-                  className={selectedCategory === category ? "selected" : ""}
+                  className={currentCategory === category ? "selected" : ""}
                   key={index}
                   onClick={() => selectDropdown("category", category)}
                 >
