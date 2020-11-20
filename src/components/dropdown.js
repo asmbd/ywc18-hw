@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import "./dropdown.scss"
-import { DoubleLocationPin, DownArrow, FoodCategory, LocationPin, ShopCategory } from "./icons"
+import { DownArrow, FoodCategory, ShopCategory } from "./icons"
 
 const Dropdown = (props) => {
 	const {
@@ -99,7 +99,7 @@ const Dropdown = (props) => {
 								) : (
 									<FoodCategory />
 							))}
-							{itemKey ? item[itemKey] : item}
+							<span>{itemKey ? item[itemKey] : item}</span>
 						</li>
 					)
 				})}

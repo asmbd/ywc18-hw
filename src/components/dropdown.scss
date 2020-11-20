@@ -78,6 +78,10 @@
 		font-size: 14px;
 		font-weight: 400;
 
+		span {
+			width: 100%;
+		}
+
 		&.selected,
 		&:active {
 			font-weight: 700;

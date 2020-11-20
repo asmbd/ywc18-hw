@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import "./header.scss"
 import Logo from "../images/halfhalf-logo.png"
 import MiniLogo from "../images/halfhalf-logo-mini.png"
