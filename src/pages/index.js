@@ -7,6 +7,8 @@ import Filter from "../components/filter"
 import MerchantCard from "../components/merchantCard"
 import Sidebar from '../components/sidebar'
 import axios from 'axios';
+import Logo from "../images/halfhalf-logo-mini.png"
+import { Helmet } from "react-helmet"
 
 const IndexPage = () => {
   const [data, setData] = useState({
@@ -87,6 +89,11 @@ const IndexPage = () => {
 
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>คนละครึ่ง</title>
+        <link rel="icon" type="image/png" href={Logo} sizes="16x16" />
+      </Helmet>
       <Sidebar
         isOpen={isOpenSidebar}
         setIsOpen={setIsOpenSidebar}
