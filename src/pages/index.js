@@ -21,6 +21,7 @@ const IndexPage = () => {
   const [merchants, setMerchants] = useState(data.merchants)
   const [filterName, setFilterMerchantName] = useState("")
   const [isOpenSidebar, setIsOpenSidebar] = useState(false)
+  const [pagination, setPagination] = useState(10)
 
   useEffect(() => {
     setMerchants(data.merchants)
@@ -130,18 +131,22 @@ const IndexPage = () => {
           {
             merchants &&
             <div className="cards-container">
-            {merchants.length > 0 ? (
-              merchants.map((merchant, index) => {
-                return <MerchantCard key={index} merchantData={merchant} />
-              })
-            ) : (
-              <div className="not-found">
-                <h2>ไม่พบสถานที่ที่คุณกำลังหา</h2>
-                ร้านค้าที่ท่านค้นหาอาจไม่ได้เข้าร่วมโครงการ คนละครึ่ง
-              </div>
-            )
+              {merchants.length > 0 ? (
+                merchants.slice(0, pagination).map((merchant, index) => {
+                  return <MerchantCard key={index} merchantData={merchant} />
+                })
+              ) : (
+                <div className="not-found">
+                  <h2>ไม่พบสถานที่ที่คุณกำลังหา</h2>
+                  ร้านค้าที่ท่านค้นหาอาจไม่ได้เข้าร่วมโครงการ คนละครึ่ง
+                </div>
+              )
+              }
+            {
+              merchants && merchants.length - pagination > 1 &&
+              <button onClick={() => setPagination(pagination + 10)} className="more-button">ดูเพิ่มเติม</button>
             }
-          </div>
+            </div>
           }
         </div>
       </div>

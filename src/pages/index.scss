@@ -1,10 +1,29 @@
 .result-container {
 	padding: 20px 16px 32px 16px;
 	user-select: none;
+	overflow-anchor: none;
 
 	> .title {
 		font-size: 20px;
 		font-weight: 700;
+	}
+
+	.more-button {
+		height: 50px;
+    border-radius: 5px;
+		max-width: 384px;
+		font-size: 14px;
+    color: rgba(0,0,0,.85);
+    background: #fff;
+    border: 1px solid #d9d9d9;
+		margin: 40px auto;
+    width: 100%;
+		transition: linear 0.3s;
+
+		&:hover {
+			color: #40a9ff;
+    	border-color: #40a9ff;
+		}
 	}
 
 	.card-filter-container {

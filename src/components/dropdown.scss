@@ -16,6 +16,16 @@
 		padding: 0 10px;
 		font-size: 14px;
 		width: 100%;
+		transition: linear 0.2s;
+
+		&:hover {
+			color: #40a9ff;
+    	border-color: #40a9ff;
+
+			> svg {
+				color: #40a9ff;
+			}
+		}
 
 		> svg {
 			color: rgba(0, 0, 0, 0.25);
