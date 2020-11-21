@@ -20,11 +20,15 @@ const Sidebar = props => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(isOpen)
   const [selectedCategory, setSelectedCategory] = useState(currentCategory)
   const [selectedSubCategory, setSelectedSubCategory] = useState(currentSubCategory)
+  const [selectedArea, setSelectedArea] = useState(area)
+  const [selectedPriceLevel, setSelectedPriceLevel] = useState(priceLevel)
 
   const closeSidebar = () => {
     setIsOpen(false)
     setCategory(selectedCategory)
     setSubCategory(selectedSubCategory)
+    setPriceLevel(selectedPriceLevel)
+    setArea(selectedArea)
   }
 
   useEffect(() => {
@@ -39,6 +43,13 @@ const Sidebar = props => {
     setSelectedCategory(currentCategory)
   }, [currentCategory])
 
+  useEffect(() => {
+    setSelectedArea(area)
+  }, [area])
+
+  useEffect(() => {
+    setSelectedPriceLevel(priceLevel)
+  }, [priceLevel])
   
   return (
     <div className={`sidebar ${isSidebarOpen && "open"}`}>
@@ -50,10 +61,10 @@ const Sidebar = props => {
       </div>
       <div className="content">
         <Filter
-          priceLevel={priceLevel}
-          setPriceLevel={setPriceLevel}
-          area={area}
-          setArea={setArea}
+          priceLevel={selectedPriceLevel}
+          setPriceLevel={setSelectedPriceLevel}
+          area={selectedArea}
+          setArea={setSelectedArea}
           currentCategory={selectedCategory}
           setSubCategory={setSelectedSubCategory}
           currentSubCategory={selectedSubCategory}
